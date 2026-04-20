@@ -10,9 +10,11 @@ function App() {
   const [loadingMap, setLoadingMap] = useState(true);
   const [loadingDetails, setLoadingDetails] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
   useEffect(() => {
     // Fetch all zones for map
-    fetch('http://localhost:8000/api/zones')
+    fetch(`${API_URL}/api/zones`)
       .then(res => res.json())
       .then(data => {
         setZones(data);
@@ -22,12 +24,12 @@ function App() {
         console.error("Failed to fetch zones", err);
         setLoadingMap(false);
       });
-  }, []);
+  }, [API_URL]);
 
   const handleZoneSelect = (zoneId) => {
     setSelectedZoneId(zoneId);
     setLoadingDetails(true);
-    fetch(`http://localhost:8000/api/zones/${zoneId}`)
+    fetch(`${API_URL}/api/zones/${zoneId}`)
       .then(res => res.json())
       .then(data => {
         setSelectedZoneData(data);
